@@ -21,6 +21,7 @@
     .muted{color:var(--muted);font-size:13px}
     footer{margin-top:16px;color:var(--muted);font-size:13px}
     .small{font-size:13px}
+    label { font-size:13px; margin-right:6px; color:var(--muted); }
   </style>
 </head>
 <body>
@@ -34,6 +35,16 @@
 
     <div class="card">
       <div class="row">
+        <label for="company">Company / Domain</label>
+        <input id="company" placeholder="example.com (will replace example.com in presets)" style="width:220px" />
+
+        <label for="engine">Search engine</label>
+        <select id="engine" title="Choose search engine">
+          <option value="google">Google</option>
+          <option value="bing">Bing</option>
+          <option value="duckduckgo">DuckDuckGo</option>
+        </select>
+
         <label for="category">Category</label>
         <select id="category"><option>Loading…</option></select>
 
@@ -46,7 +57,7 @@
 
       <div class="row">
         <label for="custom">Or paste custom dork</label>
-        <input id="custom" placeholder='e.g. site:example.com ext:php inurl:? ' style="flex:1" />
+        <input id="custom" placeholder='e.g. site:example.com ext:php inurl:?' style="flex:1" />
         <label for="pages">pages</label>
         <input id="pages" type="number" value="1" min="1" style="width:64px" />
         <label><input id="paginate" type="checkbox" /> Paginate (start=0,10,...)</label>
@@ -64,7 +75,7 @@
       </div>
 
       <footer>
-        <div>Notes: This app only opens Google search URLs in new tabs. For automated programmatic queries use Google Custom Search API and follow Google's TOS.</div>
+        <div>Notes: This app only opens search URLs in new tabs. For automated programmatic queries use Google Custom Search API and follow the provider's TOS. Only target domains you are authorized to test.</div>
       </footer>
     </div>
   </div>
@@ -80,9 +91,28 @@ function log(msg) {
   out.value = new Date().toLocaleTimeString() + ' — ' + msg + '\\n' + out.value;
 }
 
+/** Replace example.com (case-insensitive) in query with provided company/domain */
+function injectCompany(q) {
+  const company = $('company').value.trim();
+  if (!company) return q;
+  // Replace literal example.com occurrences (case-insensitive)
+  return q.replace(/example\.com/ig, company);
+}
+
 function buildUrl(q, start=0) {
+  // q is already injected
+  const engine = $('engine').value || 'google';
   const enc = encodeURIComponent(q);
-  return start > 0 ? `https://www.google.com/search?q=${enc}&start=${start}` : `https://www.google.com/search?q=${enc}`;
+  if (engine === 'google') {
+    return start > 0 ? `https://www.google.com/search?q=${enc}&start=${start}` : `https://www.google.com/search?q=${enc}`;
+  } else if (engine === 'bing') {
+    // Bing uses 'q'
+    return start > 0 ? `https://www.bing.com/search?q=${enc}&first=${start+1}` : `https://www.bing.com/search?q=${enc}`;
+  } else if (engine === 'duckduckgo') {
+    // DuckDuckGo uses q param; pagination there is different (we still open start param for consistency but DD may ignore)
+    return start > 0 ? `https://duckduckgo.com/?q=${enc}&s=${start}` : `https://duckduckgo.com/?q=${enc}`;
+  }
+  return `https://www.google.com/search?q=${enc}`;
 }
 
 function renderList(category) {
@@ -93,12 +123,13 @@ function renderList(category) {
     const div = document.createElement('div');
     div.className = 'item';
     const left = document.createElement('div');
-    left.innerHTML = `<div><strong>${q}</strong></div><div class="muted">#${i+1}</div>`;
+    left.style.flex = '1';
+    left.innerHTML = `<div style="word-break:break-word;"><strong>${q}</strong></div><div class="muted">#${i+1}</div>`;
     const right = document.createElement('div');
     const copy = document.createElement('button');
     copy.className = 'btn-ghost small';
     copy.textContent = 'Copy to input';
-    copy.onclick = () => { $('custom').value = q; log('Copied preset to input'); };
+    copy.onclick = () => { $('custom').value = injectCompany(q); log('Copied preset to input'); };
     right.appendChild(copy);
     div.appendChild(left);
     div.appendChild(right);
@@ -114,9 +145,13 @@ async function loadPresets() {
     const sel = $('category');
     sel.innerHTML = cat.map(c => `<option value="${c}">${c}</option>`).join('');
     $('preset').innerHTML = '<option>Select preset</option>';
-    renderList(cat[0]);
-    sel.value = cat[0];
-    populatePresetSelect(cat[0]);
+    if(cat.length) {
+      sel.value = cat[0];
+      populatePresetSelect(cat[0]);
+      renderList(cat[0]);
+    } else {
+      $('list').innerHTML = '<div class="muted">No presets loaded</div>';
+    }
     log('Loaded presets (' + cat.length + ' categories)');
   } catch (e) {
     log('Failed loading presets: ' + e);
@@ -139,6 +174,7 @@ $('openOne').addEventListener('click', () => {
   let q = $('custom').value.trim();
   if (!q) q = $('preset').value;
   if (!q) { alert('Choose a preset or paste a query'); return; }
+  q = injectCompany(q);
   const pages = Math.max(1, parseInt($('pages').value || '1', 10));
   const pag = $('paginate').checked;
   let opened = 0;
@@ -148,7 +184,7 @@ $('openOne').addEventListener('click', () => {
     window.open(url, '_blank');
     opened++;
   }
-  log(`Opened ${opened} tab(s) for query: ${q}`);
+  log(`Opened ${opened} tab(s) for query: ${q} on ${$('engine').value}`);
 });
 
 $('openAll').addEventListener('click', () => {
@@ -158,7 +194,8 @@ $('openAll').addEventListener('click', () => {
   const pages = Math.max(1, parseInt($('pages').value || '1', 10));
   const pag = $('paginate').checked;
   let opened = 0;
-  list.forEach(q => {
+  list.forEach(rawQ => {
+    const q = injectCompany(rawQ);
     for (let p=0;p<pages;p++) {
       const start = pag ? p*10 : 0;
       const url = buildUrl(q, start);
@@ -166,7 +203,7 @@ $('openAll').addEventListener('click', () => {
       opened++;
     }
   });
-  log(`Opened ${opened} tabs for category: ${category}`);
+  log(`Opened ${opened} tabs for category: ${category} on ${$('engine').value}`);
 });
 
 // load on start
@@ -174,4 +211,3 @@ loadPresets();
 </script>
 </body>
 </html>
-
