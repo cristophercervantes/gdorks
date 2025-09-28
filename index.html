@@ -3,110 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bug Bounty Dorker</title>
+    <title>CyberDork | Advanced Google Dorking Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --accent: #e74c3c;
-            --light: #ecf0f1;
-            --dark: #2c3e50;
-            --success: #2ecc71;
+            --primary: #0f172a;
+            --secondary: #1e293b;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --text: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --border: #334155;
+            --card-bg: #1e293b;
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
         }
         
         body {
-            background-color: #f5f7fa;
-            color: #333;
+            background: linear-gradient(135deg, var(--primary), #1a202c);
+            color: var(--text);
             line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 40px;
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 20px;
         }
         
         header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 30px 0;
-            text-align: center;
-            border-radius: 0 0 10px 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
-        .subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-icon {
+            color: var(--accent);
+            font-size: 28px;
+        }
+        
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--accent), #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .tagline {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 4px;
         }
         
         .main-content {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
             gap: 30px;
+            margin-top: 30px;
         }
         
-        .input-section {
-            flex: 1;
-            min-width: 300px;
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
         }
         
-        .results-section {
-            flex: 2;
-            min-width: 300px;
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border);
         }
         
-        .form-group {
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-title i {
+            color: var(--accent);
+        }
+        
+        .input-group {
             margin-bottom: 20px;
         }
         
         label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--dark);
+            font-weight: 500;
+            color: var(--text-secondary);
         }
         
         input, select {
             width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-            transition: border 0.3s;
+            padding: 12px 16px;
+            background: var(--secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 16px;
+            transition: all 0.3s;
         }
         
         input:focus, select:focus {
-            border-color: var(--secondary);
             outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
         }
         
         .dork-categories {
-            max-height: 400px;
+            max-height: 500px;
             overflow-y: auto;
-            border: 1px solid #eee;
-            border-radius: 5px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
             padding: 10px;
         }
         
@@ -115,29 +165,30 @@
         }
         
         .category-header {
-            background-color: var(--light);
-            padding: 10px 15px;
-            border-radius: 5px;
+            background: var(--secondary);
+            padding: 12px 16px;
+            border-radius: 8px;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-weight: 600;
+            transition: all 0.3s;
         }
         
         .category-header:hover {
-            background-color: #dfe6e9;
+            background: #2d3748;
         }
         
         .dork-list {
-            padding: 10px 15px;
+            padding: 10px 16px;
             display: none;
         }
         
         .dork-item {
-            margin-bottom: 8px;
-            padding: 8px 0;
-            border-bottom: 1px solid #f1f1f1;
+            margin-bottom: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
         
         .dork-item:last-child {
@@ -146,62 +197,77 @@
         
         .dork-checkbox {
             margin-right: 10px;
+            transform: scale(1.2);
         }
         
         .dork-name {
             font-weight: 500;
+            margin-bottom: 5px;
         }
         
         .dork-query {
             font-size: 0.85rem;
-            color: #666;
+            color: var(--text-secondary);
             margin-top: 5px;
             word-break: break-all;
+            font-family: monospace;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 8px;
+            border-radius: 4px;
         }
         
         .buttons {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             margin-top: 20px;
         }
         
         button {
             padding: 12px 20px;
             border: none;
-            border-radius: 5px;
-            font-size: 1rem;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         
         .btn-primary {
-            background-color: var(--secondary);
+            background: var(--accent);
             color: white;
             flex: 2;
         }
         
         .btn-primary:hover {
-            background-color: #2980b9;
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
         }
         
         .btn-secondary {
-            background-color: var(--light);
-            color: var(--dark);
+            background: var(--secondary);
+            color: var(--text);
             flex: 1;
+            border: 1px solid var(--border);
         }
         
         .btn-secondary:hover {
-            background-color: #dde4e6;
+            background: #2d3748;
+            transform: translateY(-2px);
         }
         
         .btn-accent {
-            background-color: var(--accent);
+            background: var(--success);
             color: white;
         }
         
         .btn-accent:hover {
-            background-color: #c0392b;
+            background: #0da271;
+            transform: translateY(-2px);
         }
         
         .results-header {
@@ -210,12 +276,18 @@
             align-items: center;
             margin-bottom: 20px;
             padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border);
         }
         
         .results-count {
             font-weight: 600;
-            color: var(--dark);
+            color: var(--text);
+            background: var(--secondary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .search-engine {
@@ -229,37 +301,47 @@
         }
         
         .results-list {
-            max-height: 500px;
+            max-height: 600px;
             overflow-y: auto;
         }
         
         .result-item {
-            padding: 15px;
-            border: 1px solid #eee;
-            border-radius: 5px;
-            margin-bottom: 15px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 16px;
             transition: all 0.3s;
+            background: var(--secondary);
         }
         
         .result-item:hover {
-            border-color: var(--secondary);
-            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
         .result-title {
             font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--dark);
+            margin-bottom: 12px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .result-title i {
+            color: var(--accent);
         }
         
         .result-query {
             font-family: monospace;
-            background-color: #f8f9fa;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
             word-break: break-all;
             font-size: 0.9rem;
+            border-left: 3px solid var(--accent);
         }
         
         .result-actions {
@@ -268,7 +350,7 @@
         }
         
         .result-actions button {
-            padding: 8px 15px;
+            padding: 8px 16px;
             font-size: 0.85rem;
         }
         
@@ -276,13 +358,55 @@
             text-align: center;
             margin-top: 40px;
             padding: 20px;
-            color: #7f8c8d;
+            color: var(--text-secondary);
             font-size: 0.9rem;
+            border-top: 1px solid var(--border);
         }
         
+        .disclaimer {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 20px;
+            font-size: 0.85rem;
+        }
+        
+        .disclaimer i {
+            color: var(--danger);
+            margin-right: 8px;
+        }
+        
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--secondary);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-hover);
+        }
+        
+        /* Animation for category expansion */
+        .category.active .category-header {
+            background: var(--accent);
+        }
+        
+        /* Responsive adjustments */
         @media (max-width: 768px) {
-            .main-content {
+            .header-content {
                 flex-direction: column;
+                gap: 15px;
+                text-align: center;
             }
             
             .buttons {
@@ -294,54 +418,106 @@
                 gap: 15px;
                 align-items: flex-start;
             }
+            
+            .search-engine {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .search-engine select {
+                flex: 1;
+            }
+        }
+        
+        .badge {
+            background: var(--accent);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            margin-left: 8px;
         }
     </style>
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>Bug Bounty Dorker</h1>
-            <p class="subtitle">Generate Google Dorks for Bug Bounty Hunting</p>
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-search-location logo-icon"></i>
+                    <div>
+                        <div class="logo-text">CyberDork</div>
+                        <div class="tagline">Advanced Google Dorking for Security Research</div>
+                    </div>
+                </div>
+                <div class="search-engine">
+                    <label for="search-engine">Search Engine:</label>
+                    <select id="search-engine">
+                        <option value="google">Google</option>
+                        <option value="bing">Bing</option>
+                        <option value="duckduckgo">DuckDuckGo</option>
+                    </select>
+                </div>
+            </div>
         </div>
     </header>
     
     <div class="container">
         <div class="main-content">
             <div class="input-section">
-                <div class="form-group">
-                    <label for="company">Company Name / Domain</label>
-                    <input type="text" id="company" placeholder="example.com">
-                </div>
-                
-                <div class="form-group">
-                    <label>Select Dork Categories</label>
-                    <div class="dork-categories" id="dork-categories">
-                        <!-- Categories will be populated by JavaScript -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title"><i class="fas fa-cogs"></i> Configuration</h2>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="company"><i class="fas fa-building"></i> Target Domain</label>
+                        <input type="text" id="company" placeholder="example.com">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-folder-tree"></i> Dork Categories</label>
+                        <div class="dork-categories" id="dork-categories">
+                            <!-- Categories will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="buttons">
+                        <button class="btn-primary" id="generate-btn">
+                            <i class="fas fa-bolt"></i> Generate Dorks
+                        </button>
+                        <button class="btn-secondary" id="select-all-btn">
+                            <i class="fas fa-check-square"></i> Select All
+                        </button>
+                        <button class="btn-secondary" id="clear-all-btn">
+                            <i class="fas fa-times-circle"></i> Clear All
+                        </button>
                     </div>
                 </div>
                 
-                <div class="buttons">
-                    <button class="btn-primary" id="generate-btn">Generate Dorks</button>
-                    <button class="btn-secondary" id="select-all-btn">Select All</button>
-                    <button class="btn-secondary" id="clear-all-btn">Clear All</button>
+                <div class="disclaimer">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>Legal Disclaimer:</strong> This tool is for authorized security testing and educational purposes only. Always ensure you have proper permission before testing any systems.
                 </div>
             </div>
             
             <div class="results-section">
-                <div class="results-header">
-                    <div class="results-count">Generated Dorks: <span id="results-count">0</span></div>
-                    <div class="search-engine">
-                        <label for="search-engine">Search Engine:</label>
-                        <select id="search-engine">
-                            <option value="google">Google</option>
-                            <option value="bing">Bing</option>
-                            <option value="duckduckgo">DuckDuckGo</option>
-                        </select>
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title"><i class="fas fa-search"></i> Generated Dorks</h2>
+                        <div class="results-count">
+                            <i class="fas fa-list"></i>
+                            <span id="results-count">0</span> Dorks Generated
+                        </div>
                     </div>
-                </div>
-                
-                <div class="results-list" id="results-list">
-                    <!-- Results will be populated by JavaScript -->
+                    
+                    <div class="results-list" id="results-list">
+                        <div class="result-item" style="text-align: center; padding: 40px 20px;">
+                            <i class="fas fa-search" style="font-size: 48px; color: var(--text-secondary); margin-bottom: 20px;"></i>
+                            <h3>No Dorks Generated Yet</h3>
+                            <p style="color: var(--text-secondary); margin-top: 10px;">Enter a target domain and select dork categories to get started.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -349,7 +525,7 @@
     
     <footer>
         <div class="container">
-            <p>Bug Bounty Dorker - For educational and authorized security testing purposes only</p>
+            <p>CyberDork &copy; 2023 | For Educational and Authorized Security Testing Only</p>
         </div>
     </footer>
 
@@ -367,118 +543,59 @@
                 ]
             },
             {
-                category: "Endpoints",
+                category: "Endpoints & Parameters",
                 items: [
                     { name: "URLs with Equals Sign", query: "site:example.com inurl:=" },
-                    { name: "URLs with Ampersand", query: "site:example.com inurl:&" }
-                ]
-            },
-            {
-                category: "Forms",
-                items: [
-                    { name: "Contact & Feedback Forms", query: 'site:example.com intitle:"Submit Feedback" | intitle:"Contact us" | intitle:"Join Our Waitlist" | intitle:"Subscribe" | intitle:"Newsletter" | intitle:"Unsubscribe" | intitle:"Email Support" | intitle:"Customer Support"' }
-                ]
-            },
-            {
-                category: "Authentication",
-                items: [
-                    { name: "Login Pages", query: 'site:example.com inurl:login | inurl:signin | intitle:Login | intitle:"sign in" | inurl:auth | inurl:/register' },
-                    { name: "Login Portals", query: 'site:example.com inurl:login | inurl:logon | inurl:sign-in | inurl:signin | inurl:portal' }
-                ]
-            },
-            {
-                category: "Ports & Services",
-                items: [
-                    { name: "Specific Port Login", query: 'site:example.com inurl:"8443/login.jsp"' },
-                    { name: "Port 8888", query: 'site:example.com:8888' }
-                ]
-            },
-            {
-                category: "File Upload",
-                items: [
-                    { name: "File Upload Forms", query: 'site:example.com "choose file"' }
-                ]
-            },
-            {
-                category: "Directory Listings",
-                items: [
-                    { name: "Index of Directories", query: 'site:example.com intext:"index of" "parent directory"' },
-                    { name: "Index of Pages", query: 'site:example.com intitle:index.of' },
-                    { name: "WordPress Admin Index", query: 'site:example.com intitle:"Index of" wp-admin' },
-                    { name: "HTAccess Index", query: 'site:example.com intext:"Index of /" +.htaccess' }
-                ]
-            },
-            {
-                category: "API Documentation",
-                items: [
-                    { name: "Swagger UI", query: 'site:example.com intitle:"Swagger UI" | inurl:"index.html" | inurl:"swagger" | inurl:"restapi" | inurl:"classicapi" | inurl:"api" | inurl:"apidocs" | inurl:"clicktrack" | inurl:"doc" | inurl:"static" | inurl:"documentation" | inurl:"openapi" | inurl:"explore" | inurl:"v1" | inurl:"v2" | inurl:"v3" | inurl:"v4" | inurl:"developer" | inurl:"apidoc" | inurl:"document" | inurl:"govpay" | inurl:"routes" | inurl:"application" | inurl:"graphql" | inurl:"playground" | inurl:"apis" | inurl:"public" | inurl:"schema" | inurl:"spec" | inurl:"gateway"' }
-                ]
-            },
-            {
-                category: "Specific Systems",
-                items: [
-                    { name: "PeopleSoft", query: 'site:example.com intitle:"Oracle+PeopleSoft+Sign-in"' },
-                    { name: "IIS Server", query: 'site:example.com intitle:"IIS Windows Server"' },
-                    { name: "phpMyAdmin", query: 'site:example.com inurl:"setup/index.php" | inurl:"phpmyadmin" | inurl:"phpMyAdmin" | inurl:"admin/phpMyAdmin" | inurl:"pma/setup/index.php" | intitle:"index of /phpMyAdmin" | "Index of" inurl:phpmyadmin | inurl:"phpMyAdmin/setup/index.php" | intitle:"phpMyAdmin setup"' },
-                    { name: "Git Exposures", query: 'site:example.com "index of /.git" | intext:"index of /.git" "parent directory"' },
-                    { name: "Git Config Files", query: 'site:example.com inurl:.git-credentials' },
-                    { name: "GeoServer", query: 'site:example.com inurl:/geoserver/web/' },
-                    { name: "Grafana", query: 'site:example.com intitle:"Grafana"' },
-                    { name: "phpLDAPadmin", query: 'site:example.com intitle:"phpLDAPadmin"' },
-                    { name: "Jenkins", query: 'site:example.com intitle:"Dashboard [Jenkins]"' },
-                    { name: "Werkzeug", query: 'site:example.com intitle:"Werkzeug"' },
-                    { name: "Symfony", query: 'site:example.com intitle:"Symfony"' },
-                    { name: "Webflow", query: 'site:example.com intext:"The page you are looking for doesn\'t exist or has been moved."' },
-                    { name: "Joomla", query: 'site:example.com intext:"Joomla! - Open Source Content Management"' },
-                    { name: "Atlassian", query: 'site:example.com inurl:Dashboard.jspa intext:"Atlassian Jira Project Management Software"' },
-                    { name: "AEM", query: 'site:example.com inurl:"/content/dam"' },
-                    { name: "Kibana", query: 'site:example.com inurl:"/app/kibana#"' }
-                ]
-            },
-            {
-                category: "Information Disclosure",
-                items: [
-                    { name: "Email Addresses in Documents", query: 'site:example.com (filetype:doc OR filetype:xlsx) intext:@gmail.com' },
-                    { name: "Log Files", query: 'site:example.com intitle:index.of intext:log' },
-                    { name: "Database Files", query: 'site:example.com inurl:db.sql | inurl:db.sqlite | inurl:setup.sql | inurl:mysql.sql | inurl:users.sql | inurl:backup.sql | inurl:db filetype:sql | inurl:backup filetype:sql | inurl:backup filetype:sql | inurl:/db/websql/' },
-                    { name: "PHP Info", query: 'site:example.com inurl:"phpinfo.php"' },
-                    { name: "Database Errors", query: 'site:example.com intext:"sql syntax near" | intext:"syntax error has occurred" | intext:"incorrect syntax near" | intext:"unexpected end of SQL command" | intext:"Warning: mysql_connect()" | intext:"Warning: mysql_query()" | intext:"Warning: pg_connect()"' },
-                    { name: "PHP Errors", query: 'site:example.com "PHP Parse error" | "PHP Warning" | "PHP Error"' },
-                    { name: "Server Errors", query: 'site:example.com inurl:"error" | intitle:"exception" | intitle:"failure" | intitle:"server at" | inurl:exception | "database error" | "SQL syntax" | "undefined index" | "unhandled exception" | "stack trace"' }
-                ]
-            },
-            {
-                category: "File Types",
-                items: [
-                    { name: "PDF Files", query: 'site:example.com ext:pdf' },
-                    { name: "Word Documents", query: 'site:example.com ext:doc | ext:docx' },
-                    { name: "Excel Files", query: 'site:example.com ext:xls | ext:xlsx' },
-                    { name: "CSV Files", query: 'site:example.com ext:csv' },
-                    { name: "PowerPoint Files", query: 'site:example.com ext:ppt | ext:pptx' },
-                    { name: "Text Files", query: 'site:example.com ext:txt' },
-                    { name: "Various Config Files", query: 'site:example.com ext:log | ext:txt | ext:conf | ext:cnf | ext:ini | ext:env | ext:sh | ext:bak | ext:backup | ext:swp | ext:old | ext:~ | ext:git | ext:svn | ext:htpasswd | ext:htaccess' }
-                ]
-            },
-            {
-                category: "Sensitive Information",
-                items: [
-                    { name: "Confidential Documents", query: 'site:example.com ext:doc | ext:docx intext:"internal use only | confidential"' },
-                    { name: "Confidential PDFs", query: 'site:example.com ext:pdf intext:"internal use only | confidential"' },
-                    { name: "AWS S3 Buckets", query: 'site:s3.amazonaws.com confidential OR "top secret" "example.com"' },
-                    { name: "Cloud Storage", query: 'site:blob.core.windows.net | site:googleapis.com | site:drive.google.com | site:docs.google.com/spreadsheets | site:groups.google.com "example.com"' },
-                    { name: "Backup Files", query: 'site:example.com intext:"Index of" intext:"backup.tar"' },
-                    { name: "Source Code", query: 'site:example.com Index of" intext:"source_code.zip | Index of" intext:"zip' },
-                    { name: "Docker Compose", query: 'site:example.com intitle:"index of" "docker-compose.yml"' }
-                ]
-            },
-            {
-                category: "Vulnerability Testing",
-                items: [
+                    { name: "URLs with Ampersand", query: "site:example.com inurl:&" },
                     { name: "XSS Parameters", query: 'site:example.com inurl:q= | inurl:s= | inurl:search= | inurl:query= | inurl:keyword= | inurl:lang= inurl:&' },
                     { name: "Open Redirect Parameters", query: 'site:example.com inurl:url= | inurl:return= | inurl:next= | inurl:redirect= | inurl:redir= | inurl:ret= | inurl:r2= | inurl:page= inurl:& inurl:http' },
                     { name: "SQL Injection Parameters", query: 'site:example.com inurl:id= | inurl:pid= | inurl:category= | inurl:cat= | inurl:action= | inurl:sid= | inurl:dir= inurl:&' },
                     { name: "SSRF Parameters", query: 'site:example.com inurl:include | inurl:dir | inurl:detail= | inurl:file= | inurl:folder= | inurl:inc= | inurl:locate= | inurl:doc= | inurl:conf= inurl:&' },
                     { name: "RCE Parameters", query: 'site:example.com inurl:cmd | inurl:exec= | inurl:query= | inurl:code= | inurl:do= | inurl:run= | inurl:read= | inurl:ping= inurl:&' }
+                ]
+            },
+            {
+                category: "Authentication & Authorization",
+                items: [
+                    { name: "Login Pages", query: 'site:example.com inurl:login | inurl:signin | intitle:Login | intitle:"sign in" | inurl:auth | inurl:/register' },
+                    { name: "Login Portals", query: 'site:example.com inurl:login | inurl:logon | inurl:sign-in | inurl:signin | inurl:portal' },
+                    { name: "Admin Panels", query: 'site:example.com intitle:admin | inurl:admin | inurl:administrator' }
+                ]
+            },
+            {
+                category: "Sensitive Files & Directories",
+                items: [
+                    { name: "Directory Listings", query: 'site:example.com intext:"index of" "parent directory"' },
+                    { name: "Configuration Files", query: 'site:example.com ext:log | ext:txt | ext:conf | ext:cnf | ext:ini | ext:env | ext:sh | ext:bak | ext:backup | ext:swp | ext:old | ext:~ | ext:git | ext:svn | ext:htpasswd | ext:htaccess' },
+                    { name: "Database Files", query: 'site:example.com inurl:db.sql | inurl:db.sqlite | inurl:setup.sql | inurl:mysql.sql | inurl:users.sql | inurl:backup.sql | inurl:db filetype:sql | inurl:backup filetype:sql | inurl:backup filetype:sql | inurl:/db/websql/' },
+                    { name: "Backup Files", query: 'site:example.com intext:"Index of" intext:"backup.tar"' },
+                    { name: "Git Exposures", query: 'site:example.com "index of /.git" | intext:"index of /.git" "parent directory"' }
+                ]
+            },
+            {
+                category: "Technology Specific",
+                items: [
+                    { name: "WordPress", query: 'site:example.com inurl:wp-content | inurl:wp-includes' },
+                    { name: "Joomla", query: 'site:example.com intext:"Joomla! - Open Source Content Management"' },
+                    { name: "phpMyAdmin", query: 'site:example.com inurl:"setup/index.php" | inurl:"phpmyadmin" | inurl:"phpMyAdmin" | inurl:"admin/phpMyAdmin" | inurl:"pma/setup/index.php" | intitle:"index of /phpMyAdmin" | "Index of" inurl:phpmyadmin | inurl:"phpMyAdmin/setup/index.php" | intitle:"phpMyAdmin setup"' },
+                    { name: "Jenkins", query: 'site:example.com intitle:"Dashboard [Jenkins]"' },
+                    { name: "Docker", query: 'site:example.com intitle:"index of" "docker-compose.yml"' },
+                    { name: "Kibana", query: 'site:example.com inurl:"/app/kibana#"' }
+                ]
+            },
+            {
+                category: "Cloud & Services",
+                items: [
+                    { name: "AWS S3 Buckets", query: 'site:s3.amazonaws.com confidential OR "top secret" "example.com"' },
+                    { name: "Cloud Storage", query: 'site:blob.core.windows.net | site:googleapis.com | site:drive.google.com | site:docs.google.com/spreadsheets | site:groups.google.com "example.com"' }
+                ]
+            },
+            {
+                category: "Error & Debug Information",
+                items: [
+                    { name: "PHP Errors", query: 'site:example.com "PHP Parse error" | "PHP Warning" | "PHP Error"' },
+                    { name: "Database Errors", query: 'site:example.com intext:"sql syntax near" | intext:"syntax error has occurred" | intext:"incorrect syntax near" | intext:"unexpected end of SQL command" | intext:"Warning: mysql_connect()" | intext:"Warning: mysql_query()" | intext:"Warning: pg_connect()"' },
+                    { name: "Server Errors", query: 'site:example.com inurl:"error" | intitle:"exception" | intitle:"failure" | intitle:"server at" | inurl:exception | "database error" | "SQL syntax" | "undefined index" | "unhandled exception" | "stack trace"' }
                 ]
             }
         ];
@@ -501,7 +618,7 @@
                 header.className = 'category-header';
                 header.innerHTML = `
                     <span>${category.category}</span>
-                    <span>+</span>
+                    <span><i class="fas fa-chevron-down"></i></span>
                 `;
                 
                 const list = document.createElement('div');
@@ -512,8 +629,10 @@
                     const dorkItem = document.createElement('div');
                     dorkItem.className = 'dork-item';
                     dorkItem.innerHTML = `
-                        <input type="checkbox" class="dork-checkbox" id="dork-${categoryIndex}-${dorkIndex}" data-category="${categoryIndex}" data-dork="${dorkIndex}">
-                        <label for="dork-${categoryIndex}-${dorkIndex}" class="dork-name">${dork.name}</label>
+                        <div>
+                            <input type="checkbox" class="dork-checkbox" id="dork-${categoryIndex}-${dorkIndex}" data-category="${categoryIndex}" data-dork="${dorkIndex}">
+                            <label for="dork-${categoryIndex}-${dorkIndex}" class="dork-name">${dork.name}</label>
+                        </div>
                         <div class="dork-query">${dork.query}</div>
                     `;
                     list.appendChild(dorkItem);
@@ -527,7 +646,10 @@
                 header.addEventListener('click', function() {
                     const isVisible = list.style.display === 'block';
                     list.style.display = isVisible ? 'none' : 'block';
-                    header.querySelector('span:last-child').textContent = isVisible ? '+' : '-';
+                    header.querySelector('span:last-child').innerHTML = isVisible ? 
+                        '<i class="fas fa-chevron-down"></i>' : 
+                        '<i class="fas fa-chevron-up"></i>';
+                    categoryElement.classList.toggle('active', !isVisible);
                 });
             });
         }
@@ -559,7 +681,7 @@
         function generateDorks() {
             const company = document.getElementById('company').value.trim();
             if (!company) {
-                alert('Please enter a company name or domain');
+                alert('Please enter a target domain');
                 return;
             }
             
@@ -588,7 +710,13 @@
             resultsCount.textContent = dorks.length;
             
             if (dorks.length === 0) {
-                resultsList.innerHTML = '<p>No dorks selected. Please select at least one dork category.</p>';
+                resultsList.innerHTML = `
+                    <div class="result-item" style="text-align: center; padding: 40px 20px;">
+                        <i class="fas fa-exclamation-circle" style="font-size: 48px; color: var(--text-secondary); margin-bottom: 20px;"></i>
+                        <h3>No Dorks Selected</h3>
+                        <p style="color: var(--text-secondary); margin-top: 10px;">Please select at least one dork category to generate queries.</p>
+                    </div>
+                `;
                 return;
             }
             
@@ -597,11 +725,17 @@
                 resultItem.className = 'result-item';
                 
                 resultItem.innerHTML = `
-                    <div class="result-title">${dork.name}</div>
+                    <div class="result-title">
+                        <i class="fas fa-search"></i> ${dork.name}
+                    </div>
                     <div class="result-query">${dork.query}</div>
                     <div class="result-actions">
-                        <button class="btn-primary" onclick="copyToClipboard('${dork.query.replace(/'/g, "\\'")}')">Copy</button>
-                        <button class="btn-accent" onclick="searchDork('${dork.query.replace(/'/g, "\\'")}')">Search</button>
+                        <button class="btn-primary" onclick="copyToClipboard('${dork.query.replace(/'/g, "\\'")}')">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                        <button class="btn-accent" onclick="searchDork('${dork.query.replace(/'/g, "\\'")}')">
+                            <i class="fas fa-external-link-alt"></i> Search
+                        </button>
                     </div>
                 `;
                 
@@ -612,7 +746,12 @@
         // Copy dork to clipboard
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
-                alert('Dork copied to clipboard!');
+                // Show a subtle confirmation (could be enhanced with a toast notification)
+                const originalText = event.target.innerHTML;
+                event.target.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    event.target.innerHTML = originalText;
+                }, 2000);
             }).catch(err => {
                 console.error('Failed to copy: ', err);
                 // Fallback for older browsers
@@ -622,7 +761,12 @@
                 textArea.select();
                 document.execCommand('copy');
                 document.body.removeChild(textArea);
-                alert('Dork copied to clipboard!');
+                
+                const originalText = event.target.innerHTML;
+                event.target.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    event.target.innerHTML = originalText;
+                }, 2000);
             });
         }
 
