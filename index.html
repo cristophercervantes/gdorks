@@ -3,78 +3,29 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Dorker — Lightweight</title>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <title>Dorker — Embedded Dorks</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg: #f6f8fb;
-      --card:#ffffff;
-      --muted:#6b7280;
-      --accent:#2563eb;
-      --accent-2:#7c3aed;
-      --text:#0f172a;
-      --border: #e6edf6;
-      --success:#10b981;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:"Inter",system-ui,Arial,Helvetica;
-      background:linear-gradient(180deg,var(--bg),#eef3fb);
-      color:var(--text);
-      padding:28px;
-    }
-    .container{max-width:1100px;margin:0 auto}
-    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-    h1{margin:0;font-weight:600;font-size:20px}
-    .sub{color:var(--muted);font-size:13px}
-    .topbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-    input[type="text"],select,button,textarea{
-      font-family:inherit;
-      border:1px solid var(--border);
-      background:var(--card);
-      padding:8px 10px;
-      border-radius:8px;
-      color:var(--text);
-      outline:none;
-    }
-    input[type="text"]{min-width:240px}
-    button{cursor:pointer}
-    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;border:0;padding:9px 14px;border-radius:10px}
-    .btn-ghost{background:transparent;border:1px solid var(--border)}
-    main{display:grid;grid-template-columns:320px 1fr;gap:18px}
-    .panel{background:var(--card);border-radius:12px;padding:14px;border:1px solid var(--border);box-shadow:0 6px 20px rgba(16,24,40,0.03)}
-    .controls{display:flex;flex-direction:column;gap:10px}
-    .label{font-size:13px;color:var(--muted);margin-bottom:6px}
-    .preset-list{display:flex;flex-direction:column;gap:10px;margin-top:8px}
-    .preset-card{padding:12px;border-radius:10px;border:1px dashed transparent;background:linear-gradient(180deg,#ffffff,#fbfdff);display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-    .preset-card:hover{box-shadow:0 6px 18px rgba(16,24,40,.06);transform:translateY(-2px);transition:all .15s ease}
-    .preset-title{font-weight:600;font-size:14px;color:var(--accent)}
-    .preset-query{font-size:13px;color:var(--muted);margin-top:6px;word-break:break-word}
-    .preset-actions{display:flex;flex-direction:column;gap:8px}
-    .small{font-size:13px;color:var(--muted)}
-    .log{height:240px;resize:none;padding:10px;border-radius:8px;background:#fbfdff;border:1px solid var(--border)}
-    .grid-controls{display:flex;gap:8px;align-items:center}
-    .badge{font-size:12px;padding:6px 8px;border-radius:999px;background:#eef6ff;color:var(--accent);border:1px solid #dbeeff}
-    footer{margin-top:16px;color:var(--muted);font-size:13px}
-    @media (max-width:880px){
-      main{grid-template-columns:1fr; padding-bottom: 30px}
-      .topbar{flex-direction:column;align-items:stretch}
-      input[type="text"]{width:100%}
-    }
+    :root{--bg:#0f172a;--panel:#0b1220;--muted:#9aa6bf;--accent:#7c3aed;--accent-2:#2563eb;--glass: rgba(255,255,255,0.04);--card:#071029;--success:#10b981;--border: rgba(255,255,255,0.06);--radius:12px}
+    *{box-sizing:border-box}body{margin:0;font-family:'Inter',system-ui,Arial,Helvetica;background:linear-gradient(180deg,var(--bg),#07122a);color:#e6eef8;padding:28px}
+    .container{max-width:1200px;margin:0 auto}header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}h1{margin:0;font-weight:700;font-size:20px}.sub{color:var(--muted);font-size:13px}
+    .topbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap}input[type="text"],select,button,textarea,input[type="number"]{font-family:inherit;border:1px solid var(--border);background:transparent;padding:10px 12px;border-radius:10px;color:inherit;outline:none}
+    .btn{cursor:pointer;padding:9px 14px;border-radius:10px;border:0}.btn-primary{background:linear-gradient(90deg,var(--accent-2),var(--accent));color:white}.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted)}
+    main{display:grid;grid-template-columns:340px 1fr;gap:18px}.panel{background:linear-gradient(180deg,var(--panel),#051022);border-radius:var(--radius);padding:16px;border:1px solid var(--border);box-shadow:0 8px 30px rgba(3,7,18,0.6)}.controls{display:flex;flex-direction:column;gap:12px}.label{font-size:13px;color:var(--muted);margin-bottom:6px}
+    .preset-list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}.preset-card{padding:12px;border-radius:10px;background:linear-gradient(180deg,#07142b,#071129);border:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column;gap:8px}.preset-title{font-weight:600;color:var(--accent);font-size:13px}.preset-query{font-size:12px;color:var(--muted);word-break:break-word}.preset-actions{display:flex;gap:8px;justify-content:flex-end}
+    .search-row{display:flex;gap:8px;align-items:center}.log{height:220px;resize:none;padding:12px;border-radius:8px;background:linear-gradient(180deg,#051226,#03101a);border:1px solid var(--border);color:var(--muted)}.meta{display:flex;gap:10px;align-items:center}.badge{font-size:12px;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,#05233b,#063047);color:var(--muted);border:1px solid rgba(255,255,255,0.03)}footer{margin-top:12px;color:var(--muted);font-size:13px}@media (max-width:980px){main{grid-template-columns:1fr} .preset-list{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
   <div class="container">
     <header>
       <div>
-        <h1>Dorker — Lightweight</h1>
+        <h1>Dorker — Embedded Dorks</h1>
         <div class="sub">Client-only tool — opens search URLs in new tabs. Use only against targets you are authorised to test.</div>
       </div>
 
       <div class="topbar">
-        <div style="display:flex;gap:8px;align-items:center">
+        <div class="meta">
           <span class="small">Engine</span>
           <select id="engine" title="Search engine">
             <option value="google">Google</option>
@@ -82,7 +33,7 @@
             <option value="duckduckgo">DuckDuckGo</option>
           </select>
         </div>
-        <button id="openOneTop" class="btn-primary">Open Selected</button>
+        <button id="openOneTop" class="btn btn-primary">Open Selected</button>
       </div>
     </header>
 
@@ -110,7 +61,7 @@
             <input id="custom" type="text" placeholder='e.g. site:example.com ext:php inurl:?' />
           </div>
 
-          <div style="display:flex;gap:8px;align-items:center">
+          <div class="search-row">
             <div style="flex:1">
               <div class="label">Pages</div>
               <input id="pages" type="number" value="1" min="1" />
@@ -122,11 +73,11 @@
           </div>
 
           <div style="display:flex;gap:8px;align-items:center;margin-top:6px">
-            <button id="openOne" class="btn-primary" style="flex:1">Open selected query</button>
-            <button id="openAll" class="btn-ghost" style="flex:1">Open all</button>
+            <button id="openOne" class="btn btn-primary" style="flex:1">Open selected query</button>
+            <button id="openAll" class="btn btn-ghost" style="flex:1">Open all</button>
           </div>
 
-          <div style="margin-top:10px">
+          <div>
             <div class="label">Quick info</div>
             <div class="small">Tip: your domain will replace <code>example.com</code> in presets. Keep queries small to avoid engine rate limits.</div>
           </div>
@@ -141,12 +92,12 @@
             <div class="small" id="catName">Category: —</div>
           </div>
           <div class="grid-controls">
-            <button id="copyAll" class="btn-ghost">Copy all queries</button>
-            <button id="viewGrid" class="btn-ghost">Compact View</button>
+            <button id="copyAll" class="btn btn-ghost">Copy all queries</button>
+            <button id="viewGrid" class="btn btn-ghost">Compact View</button>
           </div>
         </div>
 
-        <div id="presetList" class="preset-list" style="margin-top:12px"></div>
+        <div id="presetList" class="preset-list"></div>
 
         <div style="margin-top:12px">
           <div class="label">Activity log</div>
@@ -161,192 +112,139 @@
   </div>
 
 <script>
-/* Lightweight dorker logic — place dorks.json next to index.html */
-const dorksFile = 'dorks.json';
-let presets = {};
+/* Embedded presets version — no external dorks.json fetch required */
+let presets = {
+  "PHP EXTENSION WITH PARAMETERS": ["site:example.com ext:php inurl:?"],
+  "ASPX EXTENSION WITH PARAMETERS": ["site:example.com ext:aspx inurl:?"],
+  "ASP EXTENSION WITH PARAMETERS": ["site:example.com ext:asp inurl:?"],
+  "JSP EXTENSION WITH PARAMETERS": ["site:example.com ext:jsp inurl:?"],
+  "JSPX EXTENSION WITH PARAMETERS": ["site:example.com ext:jspx inurl:?"],
+  "ENDPOINTS_EQUALS": ["site:example.com inurl:="],
+  "ENDPOINTS_AMP": ["site:example.com inurl:&"],
+  "FORM": [
+    "site:example.com intitle:\"Submit Feedback\"",
+    "site:example.com intitle:\"Contact us\"",
+    "site:example.com intitle:\"Join Our Waitlist\"",
+    "site:example.com intitle:\"Subscribe\"",
+    "site:example.com intitle:\"Newsletter\"",
+    "site:example.com intitle:\"Unsubscribe\"",
+    "site:example.com intitle:\"Email Support\"",
+    "site:example.com intitle:\"Customer Support\""
+  ],
+  "LOGIN": [
+    "site:example.com inurl:login",
+    "site:example.com inurl:signin",
+    "site:example.com intitle:Login",
+    "site:example.com intitle:\"sign in\"",
+    "site:example.com inurl:auth",
+    "site:example.com inurl:/register",
+    "site:example.com inurl:logon",
+    "site:example.com inurl:sign-in",
+    "site:example.com inurl:portal"
+  ],
+  "PORTS": ["site:example.com inurl:\"8443/login.jsp\"","site:example.com:8888"],
+  "UPLOAD": ["site:example.com \"choose file\""],
+  "INDEX": ["site:example.com intext:\"index of\" \"parent directory\"","site:example.com intitle:index.of","site:example.com intitle:\"Index of\" wp-admin","site:example.com intext:\"Index of /\" +.htaccess"],
+  "SWAGGER-UI": [
+    "site:example.com intitle:\"Swagger UI\"","site:example.com inurl:\"index.html\"","site:example.com inurl:swagger","site:example.com inurl:restapi","site:example.com inurl:classicapi","site:example.com inurl:api","site:example.com inurl:apidocs","site:example.com inurl:clicktrack","site:example.com inurl:doc","site:example.com inurl:static","site:example.com inurl:documentation","site:example.com inurl:openapi","site:example.com inurl:explore","site:example.com inurl:v1","site:example.com inurl:v2","site:example.com inurl:v3","site:example.com inurl:v4","site:example.com inurl:developer","site:example.com inurl:apidoc","site:example.com inurl:document","site:example.com inurl:govpay","site:example.com inurl:routes","site:example.com inurl:application","site:example.com inurl:graphql","site:example.com inurl:playground","site:example.com inurl:apis","site:example.com inurl:public","site:example.com inurl:schema","site:example.com inurl:spec","site:example.com inurl:gateway"
+  ],
+  "PEOPLESOFT": ["site:example.com intitle:\"Oracle+PeopleSoft+Sign-in\""],
+  "IIS": ["site:example.com intitle:\"IIS Windows Server\""],
+  "PHPMYADMIN": [
+    "site:example.com inurl:\"setup/index.php\"","site:example.com inurl:\"phpmyadmin\"","site:example.com inurl:\"phpMyAdmin\"","site:example.com inurl:\"admin/phpMyAdmin\"","site:example.com inurl:\"pma/setup/index.php\"","site:example.com intitle:\"index of /phpMyAdmin\"","site:example.com inurl:\"phpMyAdmin/setup/index.php\"","site:example.com intitle:\"phpMyAdmin setup\""
+  ],
+  "GIT": [
+    "site:example.com \"index of /.git\"","site:example.com intext:\"index of /.git\" \"parent directory\"","site:example.com inurl:.git-credentials","site:example.com inurl:.gitconfig","site:example.com inurl:ORIG_HEAD","site:example.com intitle:\"index of\" \".gitignore\"","site:example.com inurl:git","site:example.com filetype:git -github.com inurl:\"/.git\"","site:example.com \".git\" intitle:\"Index of\"","site:example.com \"Parent Directory\" \"Last modified\" git"
+  ],
+  "GEOSERVER": ["site:example.com inurl:/geoserver/web/"],
+  "GRAFANA": [
+    "site:example.com intitle:\"Grafana\"","site:example.com intitle:\"grafana\" inurl:\"/grafana/login\" \"Forgot your password\"","site:example.com intitle:\"Grafana - Home\" inurl:/orgid","site:example.com intitle:Grafana inurl:orgid","site:example.com inurl:login \"Welcome to Grafana\"","site:example.com \"Welcome to Grafana\" inurl:/orgid","site:example.com intitle:\"Welcome to Grafana\""
+  ],
+  "PHPLDAPADMIN": ["site:example.com intitle:\"phpLDAPadmin\"","site:example.com intitle:\"phpLDAPadmin\" inurl:cmd.php"],
+  "JENKINS": ["site:example.com intitle:\"Dashboard [Jenkins]\"","site:example.com intitle:\"Sign in [Jenkins]\" inurl:\"login?from\""],
+  "WERKZEUG": ["site:example.com intitle:\"Werkzeug\""],
+  "SYMFONY": ["site:example.com intitle:\"Symfony\""],
+  "WEBFLOW": ["site:example.com intext:\"The page you are looking for doesn't exist or has been moved.\""],
+  "JOOMLA": ["site:example.com intext:\"Joomla! - Open Source Content Management\"","site:example.com site:*/joomla/administrator"],
+  "EMAIL": ["site:example.com (filetype:doc OR filetype:xlsx) intext:@gmail.com"],
+  "LOG": [
+    "site:example.com intitle:index.of intext:log","site:example.com filetype:log \"See `ipsec --copyright\"","site:example.com filetype:log access.log -CVS","site:example.com filetype:log cron.log","site:example.com filetype:log intext:\"ConnectionManager2\"","site:example.com filetype:log inurl:\"password.log\"","site:example.com filetype:log inurl:password.log","site:example.com intitle:index.of cleanup.log","site:example.com intitle:index.of filetype:log","site:example.com intitle:index.of log","site:example.com filetype:log inurl:nginx","site:example.com filetype:log inurl:database","site:example.com filetype:log inurl:bin","site:example.com filetype:syslog","site:example.com allintext:username filetype:log","site:example.com inurl:error filetype:log","site:example.com inurl:nginx filetype:log"
+  ],
+  "WORDPRESS": ["site:example.com intext:\"index of\" \"wp-content.zip\"","site:example.com inurl:wp-content | inurl:wp-includes"],
+  "ADMIN.ZIP": ["site:example.com intitle:\"index of /\" \"admin.zip\" \"admin/\"","site:example.com intext:\"Index of\" intext:\"/etc\""],
+  "BACKUP": ["site:example.com intext:\"Index of\" intext:\"backup.tar\"","site:example.com inurl:backup | inurl:backup.zip | inurl:backup.rar | inurl:backup.sql | inurl:backup filetype:sql | inurl:save filetype:sql | inurl:web.zip | inurl:website.zip | filetype:bak | filetype:abk | inurl:backup \"Parent Directory\""],
+  "BACKEND": ["site:example.com intext:\"Index of\" intext:\"backend/\""],
+  "SOURCE-CODE": ["site:example.com Index of\" intext:\"source_code.zip | Index of\" intext:\"zip"],
+  "DOCKER-COMPOSE": ["site:example.com intitle:\"index of\" \"docker-compose.yml\""],
+  "ATLASSIAN": ["site:example.com inurl:Dashboard.jspa intext:\"Atlassian Jira Project Management Software\""],
+  "PDF": ["site:example.com ext:pdf"],
+  "DOC": ["site:example.com ext:doc | ext:docx","site:example.com allintitle:restricted filetype:doc"],
+  "XLS": ["site:example.com ext:xls | ext:xlsx"],
+  "CSV": ["site:example.com ext:csv"],
+  "PPT": ["site:example.com ext:ppt | ext:pptx"],
+  "TXT": ["site:example.com ext:txt"],
+  "OPENBUGBOUNTY REPORTS": ["site:openbugbounty.org inurl:reports intext:\"example.com\""],
+  "JUICY EXTENSIONS": ["site:example.com ext:log | ext:txt | ext:conf | ext:cnf | ext:ini | ext:env | ext:sh | ext:bak | ext:backup | ext:swp | ext:old | ext:~ | ext:git | ext:svn | ext:htpasswd | ext:htaccess"],
+  "SENSITIVE INFORMATION": [
+    "site:example.com ext:doc | ext:docx intext:\"internal use only | confidential\"",
+    "site:example.com ext:pdf intext:\"internal use only | confidential\"",
+    "site:s3.amazonaws.com confidential OR \"top secret\" \"example.com\"",
+    "site:blob.core.windows.net | site:googleapis.com | site:drive.google.com | site:docs.google.com/spreadsheets | site:groups.google.com \"example.com\"",
+    "site:example.com inurl:/proc/self/cwd",
+    "site:example.com intitle:\"index of\" inurl:ftp",
+    "site:example.com intitle:\"Apache2 Ubuntu Default Page: It works\"",
+    "site:example.com inurl:\"server-status\" intitle:\"Apache Status\" intext:\"Apache Server Status for\"",
+    "site:example.com inurl:\"/sym404/\" | inurl:\"/wp-includes/sym404/\"",
+    "site:example.com inurl:\"/app_dev.php\"",
+    "site:example.com inurl:/webmail/ intext:Powered by IceWarp Server",
+    "site:example.com ext:env \"db_password\"",
+    "site:example.com inurl:\"/printenv\" \"REMOTE_ADDR\"",
+    "site:example.com intitle:\"index of\" \"users.yml\" | \"admin.yml\" | \"config.yml\"",
+    "site:example.com intext:\"Index of\" intext:\"backend/\" | intext:\"backup.tar\" | intitle:\"index of db.sqlite3\" | intext:\"/etc\" | intext:\"bitbucket-pipelines.yml\" | intext:\"database.sql\" | \"config/db\" | \"styleci.yml\" | \".env\" | inurl:\"/sap/bc/gui/sap/its/webgui?sap-client=SAP*\" | intitle:\"index of /\" \"admin.zip\" \"admin/\" | intitle:\"index of \" \"shell.txt\" | intitle:\"index of \" \"application.yml\" | intext:\"index of\" \"wp-content.zip\" | intext:\"index of\" smb.conf | intitle:\"index of\" /etc/shadow"
+  ],
+  "MY CUSTOM DORK": ["site:example.com intext:\"Index of\" intext:\"database.sql\"","site:example.com intext:\"Index of\" intext:\"admin.tar.gz\""],
+  "AEM": ["site:example.com inurl:\"/content/dam\""],
+  "PHPINFO": ["site:example.com inurl:\"phpinfo.php\"","site:example.com intitle:phpinfo \"published by the PHP Group\"","site:example.com inurl:info.php intext:\"PHP Version\" intitle:\"phpinfo()\""],
+  "SQL ERROR": ["site:example.com intext:\"sql syntax near\"","site:example.com intext:\"syntax error has occurred\"","site:example.com intext:\"incorrect syntax near\"","site:example.com intext:\"unexpected end of SQL command\"","site:example.com intext:\"Warning: mysql_connect()\"","site:example.com intext:\"Warning: mysql_query()\"","site:example.com intext:\"Warning: pg_connect()\""] ,
+  "PHP ERROR": ["site:example.com \"PHP Parse error\"","site:example.com \"PHP Warning\"","site:example.com \"PHP Error\""],
+  "DATABASE": ["site:example.com inurl:db.sql | inurl:db.sqlite | inurl:setup.sql | inurl:mysql.sql | inurl:users.sql | inurl:backup.sql | inurl:db filetype:sql | inurl:backup filetype:sql | inurl:backup filetype:sql | inurl:/db/websql/","site:example.com create table filetype:sql","site:example.com \"-- MySQL dump\" \"Server version\" \"Table structure for table\"","site:example.com filetype:sql"],
+  "AWS S3": ["site:http://s3.amazonaws.com intitle:index.of.bucket \"example.com\"","site:http://amazonaws.com inurl:\".s3.amazonaws.com/\" \"example.com\"","site:.s3.amazonaws.com \"Company\" \"example.com\"","intitle:index.of.bucket \"example.com\"","site:http://s3.amazonaws.com intitle:Bucket loading \"example.com\"","site:*.amazonaws.com inurl:index.html \"example.com\"","Bucket Date Modified \"example.com\""],
+  "KIBANA": ["site:example.com inurl:\"/app/kibana#\""],
+  "XSS PARAMETERS": ["site:example.com inurl:q=","site:example.com inurl:s=","site:example.com inurl:search=","site:example.com inurl:query=","site:example.com inurl:keyword=","site:example.com inurl:lang="],
+  "OPEN REDIRECT PARAMETERS": ["site:example.com inurl:url=","site:example.com inurl:return=","site:example.com inurl:next=","site:example.com inurl:redirect=","site:example.com inurl:redir=","site:example.com inurl:ret=","site:example.com inurl:r2=","site:example.com inurl:page= inurl:& inurl:http"],
+  "SERVER ERRORS": ["site:example.com inurl:\"error\"","site:example.com intitle:\"exception\"","site:example.com intitle:\"failure\"","site:example.com intitle:\"server at\"","site:example.com inurl:exception","site:example.com \"database error\"","site:example.com \"SQL syntax\"","site:example.com \"undefined index\"","site:example.com \"unhandled exception\"","site:example.com \"stack trace\""] ,
+  "SQLI PARAMETERS": ["site:example.com inurl:id=","site:example.com inurl:pid=","site:example.com inurl:category=","site:example.com inurl:cat=","site:example.com inurl:action=","site:example.com inurl:sid=","site:example.com inurl:dir= inurl:&"],
+  "SSRF PARAMETERS": ["site:example.com inurl:include","site:example.com inurl:dir","site:example.com inurl:detail=","site:example.com inurl:file=","site:example.com inurl:folder=","site:example.com inurl:inc=","site:example.com inurl:locate=","site:example.com inurl:doc=","site:example.com inurl:conf= inurl:&"],
+  "RCE PARAMETERS": ["site:example.com inurl:cmd","site:example.com inurl:exec=","site:example.com inurl:query=","site:example.com inurl:code=","site:example.com inurl:do=","site:example.com inurl:run=","site:example.com inurl:read=","site:example.com inurl:ping= inurl:&"]
+};
+
 const $ = id => document.getElementById(id);
+function log(msg){ const out = $('out'); out.value = new Date().toLocaleTimeString() + ' — ' + msg + '
+' + out.value; }
+function injectCompany(q){ const company = $('company').value.trim(); if(!company) return q; return q.replace(/example\.com/ig, company); }
+function buildUrl(q, start=0){ const engine = $('engine').value || 'google'; const enc = encodeURIComponent(q); if(engine === 'google'){ return start > 0 ? `https://www.google.com/search?q=${enc}&start=${start}` : `https://www.google.com/search?q=${enc}`; } else if(engine === 'bing'){ return start > 0 ? `https://www.bing.com/search?q=${enc}&first=${start+1}` : `https://www.bing.com/search?q=${enc}`; } else if(engine === 'duckduckgo'){ return start > 0 ? `https://duckduckgo.com/?q=${enc}&s=${start}` : `https://duckduckgo.com/?q=${enc}`; } return `https://www.google.com/search?q=${enc}`; }
 
-function log(msg){
-  const out = $('out');
-  out.value = new Date().toLocaleTimeString() + ' — ' + msg + '\n' + out.value;
-}
+function populatePresetSelect(category){ const psel = $('preset'); const list = presets[category] || []; psel.innerHTML = list.map((q,i) => `<option value="${q}">${i+1}. ${q.substring(0,80)}</option>`).join(''); $('catName').textContent = 'Category: ' + category; }
 
-/* Replace example.com (case-insensitive) in query with provided company/domain */
-function injectCompany(q){
-  const company = $('company').value.trim();
-  if(!company) return q;
-  return q.replace(/example\.com/ig, company);
-}
+function renderList(category){ const container = $('presetList'); container.innerHTML = ''; const list = presets[category] || []; if(!list.length){ container.innerHTML = '<div class="small">No queries in this category</div>'; return; } list.forEach((q,i)=>{ const card = document.createElement('div'); card.className = 'preset-card'; card.innerHTML = `<div style="flex:1"><div class="preset-title">${i+1}. ${category}</div><div class="preset-query">${q}</div></div><div class="preset-actions"><button class="btn btn-ghost" data-q="${encodeURIComponent(q)}">Copy</button><button class="btn btn-primary" data-qopen="${encodeURIComponent(q)}">Open</button></div>`; container.appendChild(card); }); }
 
-/* Build engine-specific URL */
-function buildUrl(q, start=0){
-  const engine = $('engine').value || 'google';
-  const enc = encodeURIComponent(q);
-  if(engine === 'google'){
-    return start > 0 ? `https://www.google.com/search?q=${enc}&start=${start}` : `https://www.google.com/search?q=${enc}`;
-  } else if(engine === 'bing'){
-    // Bing's 'first' param is 1-based index
-    return start > 0 ? `https://www.bing.com/search?q=${enc}&first=${start+1}` : `https://www.bing.com/search?q=${enc}`;
-  } else if(engine === 'duckduckgo'){
-    return start > 0 ? `https://duckduckgo.com/?q=${enc}&s=${start}` : `https://duckduckgo.com/?q=${enc}`;
-  }
-  return `https://www.google.com/search?q=${enc}`;
-}
+function openQuery(q){ if(!q){ alert('Empty query'); return; } const pages = Math.max(1, parseInt($('pages').value || '1', 10)); const pag = $('paginate').checked; let opened = 0; for(let p=0;p<pages;p++){ const start = pag ? p*10 : 0; window.open(buildUrl(q, start), '_blank'); opened++; } log(`Opened ${opened} tab(s) for query: ${q} on ${$('engine').value}`); }
 
-/* Load presets from JSON */
-async function loadPresets(){
-  try{
-    const res = await fetch(dorksFile + '?t=' + Date.now());
-    presets = await res.json();
-    const cats = Object.keys(presets).sort();
-    const csel = $('category');
-    csel.innerHTML = cats.map(c => `<option value="${c}">${c}</option>`).join('');
-    if(cats.length){
-      csel.value = cats[0];
-      populatePresetSelect(cats[0]);
-      renderList(cats[0]);
-    } else {
-      $('presetList').innerHTML = '<div class="small">No presets</div>';
-    }
-    $('countBadge').textContent = Object.values(presets).reduce((a,b)=>a+(b?.length||0),0) + ' presets';
-    log('Loaded ' + cats.length + ' categories');
-  }catch(e){
-    log('Failed to load presets: ' + e);
-    alert('Could not load dorks.json — make sure it exists next to index.html');
-  }
-}
+document.addEventListener('click', (e)=>{ if(e.target && e.target.dataset && e.target.dataset.q){ const raw = decodeURIComponent(e.target.dataset.q); $('custom').value = injectCompany(raw); log('Copied preset to input'); } if(e.target && e.target.dataset && e.target.dataset.qopen){ const raw = decodeURIComponent(e.target.dataset.qopen); openQuery(injectCompany(raw)); } });
 
-/* Fill preset select box */
-function populatePresetSelect(category){
-  const psel = $('preset');
-  const list = presets[category] || [];
-  psel.innerHTML = list.map((q,i) => `<option value="${q}">${i+1}. ${q.substring(0,80)}</option>`).join('');
-  $('catName').textContent = 'Category: ' + category;
-}
+$('openOne').addEventListener('click', ()=>{ let q = $('custom').value.trim(); if(!q) q = $('preset').value; if(!q) return alert('Choose a preset or paste a query'); openQuery(injectCompany(q)); });
+$('openOneTop').addEventListener('click', ()=>{ let q = $('custom').value.trim(); if(!q) q = $('preset').value; if(!q) return alert('Choose a preset or paste a query'); openQuery(injectCompany(q)); });
+$('openAll').addEventListener('click', ()=>{ const cat = $('category').value; if(!cat) return alert('Select a category'); const list = presets[cat] || []; const pages = Math.max(1, parseInt($('pages').value || '1', 10)); const pag = $('paginate').checked; let opened = 0; list.forEach(raw=>{ const q = injectCompany(raw); for(let p=0;p<pages;p++){ const start = pag ? p*10 : 0; window.open(buildUrl(q, start), '_blank'); opened++; } }); log(`Opened ${opened} tabs for category: ${cat} on ${$('engine').value}`); });
 
-/* Render the list (detailed) */
-function renderList(category){
-  const container = $('presetList');
-  container.innerHTML = '';
-  const list = presets[category] || [];
-  if(!list.length){ container.innerHTML = '<div class="small">No queries in this category</div>'; return; }
-  list.forEach((q,i)=>{
-    const card = document.createElement('div');
-    card.className = 'preset-card';
-    const left = document.createElement('div');
-    left.style.flex = '1';
-    left.innerHTML = `<div class="preset-title">${i+1}. ${category}</div><div class="preset-query">${q}</div>`;
-    const right = document.createElement('div');
-    right.className = 'preset-actions';
-    const btnCopy = document.createElement('button');
-    btnCopy.className = 'btn-ghost';
-    btnCopy.textContent = 'Copy';
-    btnCopy.onclick = ()=>{ $('custom').value = injectCompany(q); log('Copied preset to input'); };
-    const btnOpen = document.createElement('button');
-    btnOpen.className = 'btn-primary';
-    btnOpen.textContent = 'Open';
-    btnOpen.onclick = ()=>{ openQuery(injectCompany(q)); };
-    right.appendChild(btnCopy);
-    right.appendChild(btnOpen);
-    card.appendChild(left);
-    card.appendChild(right);
-    container.appendChild(card);
-  });
-}
+$('category').addEventListener('change', (e)=>{ populatePresetSelect(e.target.value); renderList(e.target.value); });
 
-/* Open a single query with pages + paginate option */
-function openQuery(q){
-  if(!q){ alert('Empty query'); return; }
-  const pages = Math.max(1, parseInt($('pages').value || '1', 10));
-  const pag = $('paginate').checked;
-  let opened = 0;
-  for(let p=0;p<pages;p++){
-    const start = pag ? p*10 : 0;
-    window.open(buildUrl(q, start), '_blank');
-    opened++;
-  }
-  log(`Opened ${opened} tab(s) for query: ${q} on ${$('engine').value}`);
-}
+$('copyAll').addEventListener('click', async ()=>{ const cat = $('category').value; if(!cat) return alert('Select a category'); const list = presets[cat] || []; if(!list.length) return alert('No queries to copy'); const combined = list.map(q => injectCompany(q)).join('
+'); try{ await navigator.clipboard.writeText(combined); log('Copied all queries to clipboard'); }catch(e){ log('Clipboard failed: ' + e); alert('Copy failed — please allow clipboard permissions or copy manually'); } });
 
-/* Open functions wired to UI */
-$('openOne').addEventListener('click', ()=>{
-  let q = $('custom').value.trim();
-  if(!q) q = $('preset').value;
-  if(!q) return alert('Choose a preset or paste a query');
-  openQuery(injectCompany(q));
-});
-$('openOneTop').addEventListener('click', ()=>{
-  let q = $('custom').value.trim();
-  if(!q) q = $('preset').value;
-  if(!q) return alert('Choose a preset or paste a query');
-  openQuery(injectCompany(q));
-});
-$('openAll').addEventListener('click', ()=>{
-  const cat = $('category').value;
-  if(!cat) return alert('Select a category');
-  const list = presets[cat] || [];
-  const pages = Math.max(1, parseInt($('pages').value || '1', 10));
-  const pag = $('paginate').checked;
-  let opened = 0;
-  list.forEach(raw=>{
-    const q = injectCompany(raw);
-    for(let p=0;p<pages;p++){
-      const start = pag ? p*10 : 0;
-      window.open(buildUrl(q, start), '_blank');
-      opened++;
-    }
-  });
-  log(`Opened ${opened} tabs for category: ${cat} on ${$('engine').value}`);
-});
+let compact = false; $('viewGrid').addEventListener('click', ()=>{ compact = !compact; const b = $('viewGrid'); b.textContent = compact ? 'Detailed View' : 'Compact View'; const cat = $('category').value; if(compact){ const container = $('presetList'); container.innerHTML = ''; const list = presets[cat] || []; list.forEach((q,i)=>{ const row = document.createElement('div'); row.className = 'preset-card'; row.innerHTML = `<div style="flex:1"><div class="preset-title">${i+1}. ${q.substring(0,80)}</div></div><div style="display:flex;gap:8px"><button class="btn btn-ghost" data-q='${encodeURIComponent(q)}'>Copy</button><button class="btn btn-primary" data-qopen='${encodeURIComponent(q)}'>Open</button></div>`; container.appendChild(row); }); } else { renderList(cat); } });
 
-/* Category change updates selects and list */
-$('category').addEventListener('change', (e)=>{
-  populatePresetSelect(e.target.value);
-  renderList(e.target.value);
-});
-
-/* Utility: copy all queries to clipboard (with company injected) */
-$('copyAll').addEventListener('click', async ()=>{
-  const cat = $('category').value;
-  if(!cat) return alert('Select a category');
-  const list = presets[cat] || [];
-  if(!list.length) return alert('No queries to copy');
-  const combined = list.map(q => injectCompany(q)).join('\\n');
-  try{
-    await navigator.clipboard.writeText(combined);
-    log('Copied all queries to clipboard');
-  }catch(e){
-    log('Clipboard failed: ' + e);
-    alert('Copy failed — please allow clipboard permissions or copy manually');
-  }
-});
-
-/* Compact view toggle (switch to simple titles) */
-let compact = false;
-$('viewGrid').addEventListener('click', ()=>{
-  compact = !compact;
-  const b = $('viewGrid');
-  b.textContent = compact ? 'Detailed View' : 'Compact View';
-  const cat = $('category').value;
-  if(compact){
-    const container = $('presetList');
-    container.innerHTML = '';
-    const list = presets[cat] || [];
-    list.forEach((q,i)=>{
-      const row = document.createElement('div');
-      row.className = 'preset-card';
-      row.innerHTML = `<div style="flex:1"><div class="preset-title">${i+1}. ${q.substring(0,80)}</div></div>
-                       <div style="display:flex;gap:8px"><button class="btn-ghost" onclick="(function(){ $('custom').value='${injectCompany(q).replace(/'/g,\"\\\\'\")}'; log('Copied preset to input') })()">Copy</button>
-                       <button class="btn-primary" onclick="(function(){ window.open('${buildUrl(injectCompany(q)).replace(/'/g,\"\\\\'\")}', '_blank'); })()">Open</button></div>`;
-      container.appendChild(row);
-    });
-  } else {
-    renderList(cat);
-  }
-});
-
-/* start */
-loadPresets();
+/* initialize UI */
+(function init(){ const cats = Object.keys(presets).sort(); const csel = $('category'); csel.innerHTML = cats.map(c => `<option value="${c}">${c}</option>`).join(''); if(cats.length){ csel.value = cats[0]; populatePresetSelect(cats[0]); renderList(cats[0]); } $('countBadge').textContent = Object.values(presets).reduce((a,b)=>a+(b?.length||0),0) + ' presets'; log('Loaded embedded presets (' + Object.keys(presets).length + ' categories)');})();
 </script>
 </body>
 </html>
