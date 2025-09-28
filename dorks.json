@@ -1,0 +1,68 @@
+{
+"EMAIL_DOCS": [
+"site:example.com (filetype:doc OR filetype:xlsx) intext:@gmail.com"
+],
+"LOGS": [
+"site:example.com intitle:index.of intext:log",
+"site:example.com filetype:log access.log -CVS",
+"site:example.com filetype:log cron.log",
+"site:example.com filetype:log intext:\"ConnectionManager2\"",
+"site:example.com filetype:log inurl:\"password.log\""
+],
+"WORDPRESS": [
+"site:example.com intext:\"index of\" \"wp-content.zip\"",
+"site:example.com inurl:wp-content | inurl:wp-includes"
+],
+"BACKUPS": [
+"site:example.com intext:\"Index of\" intext:\"backup.tar\"",
+"site:example.com inurl:backup | inurl:backup.zip | inurl:backup.rar | inurl:backup.sql"
+],
+"SENSITIVE": [
+"site:example.com ext:env \"db_password\"",
+"site:example.com inurl:/proc/self/cwd",
+"site:example.com intitle:\"index of\" inurl:ftp",
+"site:example.com inurl:\"/printenv\" \"REMOTE_ADDR\"",
+"site:example.com intitle:\"Apache2 Ubuntu Default Page: It works\""
+],
+"PHPINFO": [
+"site:example.com inurl:\"phpinfo.php\"",
+"site:example.com intitle:phpinfo \"published by the PHP Group\""
+],
+"ERRORS": [
+"site:example.com intext:\"sql syntax near\"",
+"site:example.com intext:\"PHP Parse error\"",
+"site:example.com intext:\"Warning: mysql_connect()\""
+],
+"DATABASE": [
+"site:example.com filetype:sql",
+"site:example.com create table filetype:sql"
+],
+"AWS_S3": [
+"site:*.s3.amazonaws.com \"example.com\"",
+"intitle:index.of.bucket \"example.com\""
+],
+"KIBANA": [
+"site:example.com inurl:\"/app/kibana#\""
+],
+"XSS_PARAMS": [
+"site:example.com inurl:q=",
+"site:example.com inurl:search=",
+"site:example.com inurl:query="
+],
+"OPEN_REDIRECT_PARAMS": [
+"site:example.com inurl:url=",
+"site:example.com inurl:return=",
+"site:example.com inurl:next=",
+"site:example.com inurl:redirect=",
+"site:example.com inurl:page= inurl:http"
+],
+"SSRF_PARAMS": [
+"site:example.com inurl:include",
+"site:example.com inurl:file="
+],
+"RCE_PARAMS": [
+"site:example.com inurl:cmd",
+"site:example.com inurl:exec=",
+"site:example.com inurl:ping="
+]
+}
