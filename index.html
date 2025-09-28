@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dorker — GitHub Pages</title>
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--accent:#06b6d4;--muted:#94a3b8;--text:#e6eef8}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,var(--bg),#071026);color:var(--text);margin:0;min-height:100vh;padding:28px}
+    .wrap{max-width:980px;margin:0 auto}
+    header{display:flex;align-items:center;gap:18px;margin-bottom:18px}
+    h1{margin:0;font-size:20px}
+    .card{background:var(--card);padding:14px;border-radius:10px;box-shadow:0 6px 18px rgba(2,6,23,.6)}
+    .row{display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+    select,input,button,textarea{background:#061024;border:1px solid rgba(255,255,255,.04);color:var(--text);padding:8px;border-radius:8px}
+    button{cursor:pointer;border:0;padding:8px 12px}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),#7c3aed);color:#001;}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.06)}
+    .list{max-height:360px;overflow:auto;margin-top:8px;border-radius:8px;padding:8px;background:rgba(255,255,255,.01)}
+    .item{padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,.02);margin-bottom:8px;display:flex;justify-content:space-between;gap:12px;align-items:center}
+    .muted{color:var(--muted);font-size:13px}
+    footer{margin-top:16px;color:var(--muted);font-size:13px}
+    .small{font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="card" style="padding:10px">
+        <h1>Dorker — GitHub Pages</h1>
+        <div class="muted small">Opens dork queries in new tabs. Use responsibly.</div>
+      </div>
+    </header>
+
+    <div class="card">
+      <div class="row">
+        <label for="category">Category</label>
+        <select id="category"><option>Loading…</option></select>
+
+        <label for="preset">Preset</label>
+        <select id="preset"><option>Select category first</option></select>
+
+        <button id="openOne" class="btn-primary">Open Selected Query</button>
+        <button id="openAll" class="btn-ghost">Open All Queries</button>
+      </div>
+
+      <div class="row">
+        <label for="custom">Or paste custom dork</label>
+        <input id="custom" placeholder='e.g. site:example.com ext:php inurl:? ' style="flex:1" />
+        <label for="pages">pages</label>
+        <input id="pages" type="number" value="1" min="1" style="width:64px" />
+        <label><input id="paginate" type="checkbox" /> Paginate (start=0,10,...)</label>
+      </div>
+
+      <div class="row">
+        <div style="flex:1">
+          <div class="muted">Preset queries (click to copy into input)</div>
+          <div id="list" class="list"></div>
+        </div>
+        <div style="width:300px;margin-left:10px">
+          <div class="muted">Output / Logs</div>
+          <textarea id="out" style="width:100%;height:280px" readonly></textarea>
+        </div>
+      </div>
+
+      <footer>
+        <div>Notes: This app only opens Google search URLs in new tabs. For automated programmatic queries use Google Custom Search API and follow Google's TOS.</div>
+      </footer>
+    </div>
+  </div>
+
+<script>
+const dorksFile = 'dorks.json';
+
+let presets = {};
+const $ = id => document.getElementById(id);
+
+function log(msg) {
+  const out = $('out');
+  out.value = new Date().toLocaleTimeString() + ' — ' + msg + '\\n' + out.value;
+}
+
+function buildUrl(q, start=0) {
+  const enc = encodeURIComponent(q);
+  return start > 0 ? `https://www.google.com/search?q=${enc}&start=${start}` : `https://www.google.com/search?q=${enc}`;
+}
+
+function renderList(category) {
+  const list = $('list');
+  list.innerHTML = '';
+  const items = presets[category] || [];
+  items.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'item';
+    const left = document.createElement('div');
+    left.innerHTML = `<div><strong>${q}</strong></div><div class="muted">#${i+1}</div>`;
+    const right = document.createElement('div');
+    const copy = document.createElement('button');
+    copy.className = 'btn-ghost small';
+    copy.textContent = 'Copy to input';
+    copy.onclick = () => { $('custom').value = q; log('Copied preset to input'); };
+    right.appendChild(copy);
+    div.appendChild(left);
+    div.appendChild(right);
+    list.appendChild(div);
+  });
+}
+
+async function loadPresets() {
+  try {
+    const res = await fetch(dorksFile + '?t=' + Date.now());
+    presets = await res.json();
+    const cat = Object.keys(presets).sort();
+    const sel = $('category');
+    sel.innerHTML = cat.map(c => `<option value="${c}">${c}</option>`).join('');
+    $('preset').innerHTML = '<option>Select preset</option>';
+    renderList(cat[0]);
+    sel.value = cat[0];
+    populatePresetSelect(cat[0]);
+    log('Loaded presets (' + cat.length + ' categories)');
+  } catch (e) {
+    log('Failed loading presets: ' + e);
+    alert('Could not load dorks.json — make sure it exists next to index.html');
+  }
+}
+
+function populatePresetSelect(category) {
+  const p = $('preset');
+  const list = presets[category] || [];
+  p.innerHTML = list.map((q, i) => `<option value="${q}">${i+1}. ${q.substring(0,80)}</option>`).join('');
+  renderList(category);
+}
+
+$('category').addEventListener('change', e => {
+  populatePresetSelect(e.target.value);
+});
+
+$('openOne').addEventListener('click', () => {
+  let q = $('custom').value.trim();
+  if (!q) q = $('preset').value;
+  if (!q) { alert('Choose a preset or paste a query'); return; }
+  const pages = Math.max(1, parseInt($('pages').value || '1', 10));
+  const pag = $('paginate').checked;
+  let opened = 0;
+  for (let p=0;p<pages;p++) {
+    const start = pag ? p*10 : 0;
+    const url = buildUrl(q, start);
+    window.open(url, '_blank');
+    opened++;
+  }
+  log(`Opened ${opened} tab(s) for query: ${q}`);
+});
+
+$('openAll').addEventListener('click', () => {
+  const category = $('category').value;
+  if (!category) return alert('Select a category first');
+  const list = presets[category] || [];
+  const pages = Math.max(1, parseInt($('pages').value || '1', 10));
+  const pag = $('paginate').checked;
+  let opened = 0;
+  list.forEach(q => {
+    for (let p=0;p<pages;p++) {
+      const start = pag ? p*10 : 0;
+      const url = buildUrl(q, start);
+      window.open(url, '_blank');
+      opened++;
+    }
+  });
+  log(`Opened ${opened} tabs for category: ${category}`);
+});
+
+// load on start
+loadPresets();
+</script>
+</body>
+</html>
+
