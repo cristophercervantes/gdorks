@@ -3,210 +3,349 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Dorker — GitHub Pages</title>
+  <title>Dorker — Lightweight</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#0f1724;--card:#0b1220;--accent:#06b6d4;--muted:#94a3b8;--text:#e6eef8}
-    body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,var(--bg),#071026);color:var(--text);margin:0;min-height:100vh;padding:28px}
-    .wrap{max-width:980px;margin:0 auto}
-    header{display:flex;align-items:center;gap:18px;margin-bottom:18px}
-    h1{margin:0;font-size:20px}
-    .card{background:var(--card);padding:14px;border-radius:10px;box-shadow:0 6px 18px rgba(2,6,23,.6)}
-    .row{display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
-    select,input,button,textarea{background:#061024;border:1px solid rgba(255,255,255,.04);color:var(--text);padding:8px;border-radius:8px}
-    button{cursor:pointer;border:0;padding:8px 12px}
-    .btn-primary{background:linear-gradient(90deg,var(--accent),#7c3aed);color:#001;}
-    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.06)}
-    .list{max-height:360px;overflow:auto;margin-top:8px;border-radius:8px;padding:8px;background:rgba(255,255,255,.01)}
-    .item{padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,.02);margin-bottom:8px;display:flex;justify-content:space-between;gap:12px;align-items:center}
-    .muted{color:var(--muted);font-size:13px}
+    :root{
+      --bg: #f6f8fb;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --accent:#2563eb;
+      --accent-2:#7c3aed;
+      --text:#0f172a;
+      --border: #e6edf6;
+      --success:#10b981;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"Inter",system-ui,Arial,Helvetica;
+      background:linear-gradient(180deg,var(--bg),#eef3fb);
+      color:var(--text);
+      padding:28px;
+    }
+    .container{max-width:1100px;margin:0 auto}
+    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+    h1{margin:0;font-weight:600;font-size:20px}
+    .sub{color:var(--muted);font-size:13px}
+    .topbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    input[type="text"],select,button,textarea{
+      font-family:inherit;
+      border:1px solid var(--border);
+      background:var(--card);
+      padding:8px 10px;
+      border-radius:8px;
+      color:var(--text);
+      outline:none;
+    }
+    input[type="text"]{min-width:240px}
+    button{cursor:pointer}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;border:0;padding:9px 14px;border-radius:10px}
+    .btn-ghost{background:transparent;border:1px solid var(--border)}
+    main{display:grid;grid-template-columns:320px 1fr;gap:18px}
+    .panel{background:var(--card);border-radius:12px;padding:14px;border:1px solid var(--border);box-shadow:0 6px 20px rgba(16,24,40,0.03)}
+    .controls{display:flex;flex-direction:column;gap:10px}
+    .label{font-size:13px;color:var(--muted);margin-bottom:6px}
+    .preset-list{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+    .preset-card{padding:12px;border-radius:10px;border:1px dashed transparent;background:linear-gradient(180deg,#ffffff,#fbfdff);display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+    .preset-card:hover{box-shadow:0 6px 18px rgba(16,24,40,.06);transform:translateY(-2px);transition:all .15s ease}
+    .preset-title{font-weight:600;font-size:14px;color:var(--accent)}
+    .preset-query{font-size:13px;color:var(--muted);margin-top:6px;word-break:break-word}
+    .preset-actions{display:flex;flex-direction:column;gap:8px}
+    .small{font-size:13px;color:var(--muted)}
+    .log{height:240px;resize:none;padding:10px;border-radius:8px;background:#fbfdff;border:1px solid var(--border)}
+    .grid-controls{display:flex;gap:8px;align-items:center}
+    .badge{font-size:12px;padding:6px 8px;border-radius:999px;background:#eef6ff;color:var(--accent);border:1px solid #dbeeff}
     footer{margin-top:16px;color:var(--muted);font-size:13px}
-    .small{font-size:13px}
-    label { font-size:13px; margin-right:6px; color:var(--muted); }
+    @media (max-width:880px){
+      main{grid-template-columns:1fr; padding-bottom: 30px}
+      .topbar{flex-direction:column;align-items:stretch}
+      input[type="text"]{width:100%}
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <div class="container">
     <header>
-      <div class="card" style="padding:10px">
-        <h1>Dorker — GitHub Pages</h1>
-        <div class="muted small">Opens dork queries in new tabs. Use responsibly.</div>
+      <div>
+        <h1>Dorker — Lightweight</h1>
+        <div class="sub">Client-only tool — opens search URLs in new tabs. Use only against targets you are authorised to test.</div>
+      </div>
+
+      <div class="topbar">
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="small">Engine</span>
+          <select id="engine" title="Search engine">
+            <option value="google">Google</option>
+            <option value="bing">Bing</option>
+            <option value="duckduckgo">DuckDuckGo</option>
+          </select>
+        </div>
+        <button id="openOneTop" class="btn-primary">Open Selected</button>
       </div>
     </header>
 
-    <div class="card">
-      <div class="row">
-        <label for="company">Company / Domain</label>
-        <input id="company" placeholder="example.com (will replace example.com in presets)" style="width:220px" />
+    <main>
+      <!-- left panel: inputs & options -->
+      <aside class="panel">
+        <div class="controls">
+          <div>
+            <div class="label">Company or Domain</div>
+            <input id="company" type="text" placeholder="example.com — will replace example.com in presets" />
+          </div>
 
-        <label for="engine">Search engine</label>
-        <select id="engine" title="Choose search engine">
-          <option value="google">Google</option>
-          <option value="bing">Bing</option>
-          <option value="duckduckgo">DuckDuckGo</option>
-        </select>
+          <div>
+            <div class="label">Select category</div>
+            <select id="category"></select>
+          </div>
 
-        <label for="category">Category</label>
-        <select id="category"><option>Loading…</option></select>
+          <div>
+            <div class="label">Select preset</div>
+            <select id="preset"></select>
+          </div>
 
-        <label for="preset">Preset</label>
-        <select id="preset"><option>Select category first</option></select>
+          <div>
+            <div class="label">Or paste a custom query</div>
+            <input id="custom" type="text" placeholder='e.g. site:example.com ext:php inurl:?' />
+          </div>
 
-        <button id="openOne" class="btn-primary">Open Selected Query</button>
-        <button id="openAll" class="btn-ghost">Open All Queries</button>
-      </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <div style="flex:1">
+              <div class="label">Pages</div>
+              <input id="pages" type="number" value="1" min="1" />
+            </div>
+            <div style="width:120px">
+              <div class="label">Paginate</div>
+              <label style="display:flex;align-items:center;gap:8px"><input id="paginate" type="checkbox" /> <span class="small">split</span></label>
+            </div>
+          </div>
 
-      <div class="row">
-        <label for="custom">Or paste custom dork</label>
-        <input id="custom" placeholder='e.g. site:example.com ext:php inurl:?' style="flex:1" />
-        <label for="pages">pages</label>
-        <input id="pages" type="number" value="1" min="1" style="width:64px" />
-        <label><input id="paginate" type="checkbox" /> Paginate (start=0,10,...)</label>
-      </div>
+          <div style="display:flex;gap:8px;align-items:center;margin-top:6px">
+            <button id="openOne" class="btn-primary" style="flex:1">Open selected query</button>
+            <button id="openAll" class="btn-ghost" style="flex:1">Open all</button>
+          </div>
 
-      <div class="row">
-        <div style="flex:1">
-          <div class="muted">Preset queries (click to copy into input)</div>
-          <div id="list" class="list"></div>
+          <div style="margin-top:10px">
+            <div class="label">Quick info</div>
+            <div class="small">Tip: your domain will replace <code>example.com</code> in presets. Keep queries small to avoid engine rate limits.</div>
+          </div>
         </div>
-        <div style="width:300px;margin-left:10px">
-          <div class="muted">Output / Logs</div>
-          <textarea id="out" style="width:100%;height:280px" readonly></textarea>
-        </div>
-      </div>
+      </aside>
 
-      <footer>
-        <div>Notes: This app only opens search URLs in new tabs. For automated programmatic queries use Google Custom Search API and follow the provider's TOS. Only target domains you are authorized to test.</div>
-      </footer>
-    </div>
+      <!-- right panel: presets + logs -->
+      <section class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="display:flex;gap:10px;align-items:center">
+            <div class="badge" id="countBadge">0 presets</div>
+            <div class="small" id="catName">Category: —</div>
+          </div>
+          <div class="grid-controls">
+            <button id="copyAll" class="btn-ghost">Copy all queries</button>
+            <button id="viewGrid" class="btn-ghost">Compact View</button>
+          </div>
+        </div>
+
+        <div id="presetList" class="preset-list" style="margin-top:12px"></div>
+
+        <div style="margin-top:12px">
+          <div class="label">Activity log</div>
+          <textarea id="out" class="log" readonly></textarea>
+        </div>
+
+        <footer>
+          <div>Hosting on GitHub Pages — this app only generates search URLs in the client. Avoid automated large-scale scanning; use provider APIs for heavy queries.</div>
+        </footer>
+      </section>
+    </main>
   </div>
 
 <script>
+/* Lightweight dorker logic — place dorks.json next to index.html */
 const dorksFile = 'dorks.json';
-
 let presets = {};
 const $ = id => document.getElementById(id);
 
-function log(msg) {
+function log(msg){
   const out = $('out');
-  out.value = new Date().toLocaleTimeString() + ' — ' + msg + '\\n' + out.value;
+  out.value = new Date().toLocaleTimeString() + ' — ' + msg + '\n' + out.value;
 }
 
-/** Replace example.com (case-insensitive) in query with provided company/domain */
-function injectCompany(q) {
+/* Replace example.com (case-insensitive) in query with provided company/domain */
+function injectCompany(q){
   const company = $('company').value.trim();
-  if (!company) return q;
-  // Replace literal example.com occurrences (case-insensitive)
+  if(!company) return q;
   return q.replace(/example\.com/ig, company);
 }
 
-function buildUrl(q, start=0) {
-  // q is already injected
+/* Build engine-specific URL */
+function buildUrl(q, start=0){
   const engine = $('engine').value || 'google';
   const enc = encodeURIComponent(q);
-  if (engine === 'google') {
+  if(engine === 'google'){
     return start > 0 ? `https://www.google.com/search?q=${enc}&start=${start}` : `https://www.google.com/search?q=${enc}`;
-  } else if (engine === 'bing') {
-    // Bing uses 'q'
+  } else if(engine === 'bing'){
+    // Bing's 'first' param is 1-based index
     return start > 0 ? `https://www.bing.com/search?q=${enc}&first=${start+1}` : `https://www.bing.com/search?q=${enc}`;
-  } else if (engine === 'duckduckgo') {
-    // DuckDuckGo uses q param; pagination there is different (we still open start param for consistency but DD may ignore)
+  } else if(engine === 'duckduckgo'){
     return start > 0 ? `https://duckduckgo.com/?q=${enc}&s=${start}` : `https://duckduckgo.com/?q=${enc}`;
   }
   return `https://www.google.com/search?q=${enc}`;
 }
 
-function renderList(category) {
-  const list = $('list');
-  list.innerHTML = '';
-  const items = presets[category] || [];
-  items.forEach((q, i) => {
-    const div = document.createElement('div');
-    div.className = 'item';
-    const left = document.createElement('div');
-    left.style.flex = '1';
-    left.innerHTML = `<div style="word-break:break-word;"><strong>${q}</strong></div><div class="muted">#${i+1}</div>`;
-    const right = document.createElement('div');
-    const copy = document.createElement('button');
-    copy.className = 'btn-ghost small';
-    copy.textContent = 'Copy to input';
-    copy.onclick = () => { $('custom').value = injectCompany(q); log('Copied preset to input'); };
-    right.appendChild(copy);
-    div.appendChild(left);
-    div.appendChild(right);
-    list.appendChild(div);
-  });
-}
-
-async function loadPresets() {
-  try {
+/* Load presets from JSON */
+async function loadPresets(){
+  try{
     const res = await fetch(dorksFile + '?t=' + Date.now());
     presets = await res.json();
-    const cat = Object.keys(presets).sort();
-    const sel = $('category');
-    sel.innerHTML = cat.map(c => `<option value="${c}">${c}</option>`).join('');
-    $('preset').innerHTML = '<option>Select preset</option>';
-    if(cat.length) {
-      sel.value = cat[0];
-      populatePresetSelect(cat[0]);
-      renderList(cat[0]);
+    const cats = Object.keys(presets).sort();
+    const csel = $('category');
+    csel.innerHTML = cats.map(c => `<option value="${c}">${c}</option>`).join('');
+    if(cats.length){
+      csel.value = cats[0];
+      populatePresetSelect(cats[0]);
+      renderList(cats[0]);
     } else {
-      $('list').innerHTML = '<div class="muted">No presets loaded</div>';
+      $('presetList').innerHTML = '<div class="small">No presets</div>';
     }
-    log('Loaded presets (' + cat.length + ' categories)');
-  } catch (e) {
-    log('Failed loading presets: ' + e);
+    $('countBadge').textContent = Object.values(presets).reduce((a,b)=>a+(b?.length||0),0) + ' presets';
+    log('Loaded ' + cats.length + ' categories');
+  }catch(e){
+    log('Failed to load presets: ' + e);
     alert('Could not load dorks.json — make sure it exists next to index.html');
   }
 }
 
-function populatePresetSelect(category) {
-  const p = $('preset');
+/* Fill preset select box */
+function populatePresetSelect(category){
+  const psel = $('preset');
   const list = presets[category] || [];
-  p.innerHTML = list.map((q, i) => `<option value="${q}">${i+1}. ${q.substring(0,80)}</option>`).join('');
-  renderList(category);
+  psel.innerHTML = list.map((q,i) => `<option value="${q}">${i+1}. ${q.substring(0,80)}</option>`).join('');
+  $('catName').textContent = 'Category: ' + category;
 }
 
-$('category').addEventListener('change', e => {
-  populatePresetSelect(e.target.value);
-});
+/* Render the list (detailed) */
+function renderList(category){
+  const container = $('presetList');
+  container.innerHTML = '';
+  const list = presets[category] || [];
+  if(!list.length){ container.innerHTML = '<div class="small">No queries in this category</div>'; return; }
+  list.forEach((q,i)=>{
+    const card = document.createElement('div');
+    card.className = 'preset-card';
+    const left = document.createElement('div');
+    left.style.flex = '1';
+    left.innerHTML = `<div class="preset-title">${i+1}. ${category}</div><div class="preset-query">${q}</div>`;
+    const right = document.createElement('div');
+    right.className = 'preset-actions';
+    const btnCopy = document.createElement('button');
+    btnCopy.className = 'btn-ghost';
+    btnCopy.textContent = 'Copy';
+    btnCopy.onclick = ()=>{ $('custom').value = injectCompany(q); log('Copied preset to input'); };
+    const btnOpen = document.createElement('button');
+    btnOpen.className = 'btn-primary';
+    btnOpen.textContent = 'Open';
+    btnOpen.onclick = ()=>{ openQuery(injectCompany(q)); };
+    right.appendChild(btnCopy);
+    right.appendChild(btnOpen);
+    card.appendChild(left);
+    card.appendChild(right);
+    container.appendChild(card);
+  });
+}
 
-$('openOne').addEventListener('click', () => {
-  let q = $('custom').value.trim();
-  if (!q) q = $('preset').value;
-  if (!q) { alert('Choose a preset or paste a query'); return; }
-  q = injectCompany(q);
+/* Open a single query with pages + paginate option */
+function openQuery(q){
+  if(!q){ alert('Empty query'); return; }
   const pages = Math.max(1, parseInt($('pages').value || '1', 10));
   const pag = $('paginate').checked;
   let opened = 0;
-  for (let p=0;p<pages;p++) {
+  for(let p=0;p<pages;p++){
     const start = pag ? p*10 : 0;
-    const url = buildUrl(q, start);
-    window.open(url, '_blank');
+    window.open(buildUrl(q, start), '_blank');
     opened++;
   }
   log(`Opened ${opened} tab(s) for query: ${q} on ${$('engine').value}`);
-});
+}
 
-$('openAll').addEventListener('click', () => {
-  const category = $('category').value;
-  if (!category) return alert('Select a category first');
-  const list = presets[category] || [];
+/* Open functions wired to UI */
+$('openOne').addEventListener('click', ()=>{
+  let q = $('custom').value.trim();
+  if(!q) q = $('preset').value;
+  if(!q) return alert('Choose a preset or paste a query');
+  openQuery(injectCompany(q));
+});
+$('openOneTop').addEventListener('click', ()=>{
+  let q = $('custom').value.trim();
+  if(!q) q = $('preset').value;
+  if(!q) return alert('Choose a preset or paste a query');
+  openQuery(injectCompany(q));
+});
+$('openAll').addEventListener('click', ()=>{
+  const cat = $('category').value;
+  if(!cat) return alert('Select a category');
+  const list = presets[cat] || [];
   const pages = Math.max(1, parseInt($('pages').value || '1', 10));
   const pag = $('paginate').checked;
   let opened = 0;
-  list.forEach(rawQ => {
-    const q = injectCompany(rawQ);
-    for (let p=0;p<pages;p++) {
+  list.forEach(raw=>{
+    const q = injectCompany(raw);
+    for(let p=0;p<pages;p++){
       const start = pag ? p*10 : 0;
-      const url = buildUrl(q, start);
-      window.open(url, '_blank');
+      window.open(buildUrl(q, start), '_blank');
       opened++;
     }
   });
-  log(`Opened ${opened} tabs for category: ${category} on ${$('engine').value}`);
+  log(`Opened ${opened} tabs for category: ${cat} on ${$('engine').value}`);
 });
 
-// load on start
+/* Category change updates selects and list */
+$('category').addEventListener('change', (e)=>{
+  populatePresetSelect(e.target.value);
+  renderList(e.target.value);
+});
+
+/* Utility: copy all queries to clipboard (with company injected) */
+$('copyAll').addEventListener('click', async ()=>{
+  const cat = $('category').value;
+  if(!cat) return alert('Select a category');
+  const list = presets[cat] || [];
+  if(!list.length) return alert('No queries to copy');
+  const combined = list.map(q => injectCompany(q)).join('\\n');
+  try{
+    await navigator.clipboard.writeText(combined);
+    log('Copied all queries to clipboard');
+  }catch(e){
+    log('Clipboard failed: ' + e);
+    alert('Copy failed — please allow clipboard permissions or copy manually');
+  }
+});
+
+/* Compact view toggle (switch to simple titles) */
+let compact = false;
+$('viewGrid').addEventListener('click', ()=>{
+  compact = !compact;
+  const b = $('viewGrid');
+  b.textContent = compact ? 'Detailed View' : 'Compact View';
+  const cat = $('category').value;
+  if(compact){
+    const container = $('presetList');
+    container.innerHTML = '';
+    const list = presets[cat] || [];
+    list.forEach((q,i)=>{
+      const row = document.createElement('div');
+      row.className = 'preset-card';
+      row.innerHTML = `<div style="flex:1"><div class="preset-title">${i+1}. ${q.substring(0,80)}</div></div>
+                       <div style="display:flex;gap:8px"><button class="btn-ghost" onclick="(function(){ $('custom').value='${injectCompany(q).replace(/'/g,\"\\\\'\")}'; log('Copied preset to input') })()">Copy</button>
+                       <button class="btn-primary" onclick="(function(){ window.open('${buildUrl(injectCompany(q)).replace(/'/g,\"\\\\'\")}', '_blank'); })()">Open</button></div>`;
+      container.appendChild(row);
+    });
+  } else {
+    renderList(cat);
+  }
+});
+
+/* start */
 loadPresets();
 </script>
 </body>
